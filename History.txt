@@ -1,8 +1,22 @@
+== 0.11
+* Added support to set min_memory/max_memory in sunspot.yml. These
+  parameters will be passed to the virtual machine as -Xmx and -Xms
+* AR Models with non-integer primary keys are now supported. 
+* AR Models with non-id primary key columns are supported.
+* Added searchable option :ignore_attribute_changes_of. Changes
+  of these attributes will not trigger a reindex.
+* Added auto_commit_after_delete_request config flag in sunspot.yml
+  [tmeasday]
+  
 == 0.10.7
-* Added Sunspot::Rails::Server class to  start/stop/run/bootstrap the solr server
-* Added log_level key to sunspot.yml, see java docs for valid values (http://java.sun.com/j2se/1.5.0/docs/api/java/util/logging/Level.html)
-* Added log_file key to sunspot.yml. This defaults to RAILS_ROOT/log/solr_<environment>.log.
-* Added support for localsolr in sunspot_rails. You can add custom extension.jar files to your Rails.root/solr/lib directory
+* Added Sunspot::Rails::Server class to  start/stop/run/bootstrap the solr
+  server
+* Added log_level key to sunspot.yml, see java docs for valid values 
+  (http://java.sun.com/j2se/1.5.0/docs/api/java/util/logging/Level.html)
+* Added log_file key to sunspot.yml. This defaults to 
+  RAILS_ROOT/log/solr_<environment>.log.
+* Added support for localsolr in sunspot_rails. You can add custom
+  extension.jar files to your Rails.root/solr/lib directory
 * Added an option to not reindex an object when certain columns have changed.
 
 == 0.10.6
