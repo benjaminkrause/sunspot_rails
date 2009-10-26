@@ -11,10 +11,10 @@ module Sunspot #:nodoc:
         #
         # ==== Returns
         # 
-        # Integer:: Database ID of model
+        # Mixed:: Database ID of model
         #
         def id
-          @instance.id
+          @instance.send( @instance.class.primary_key )
         end
       end
 
@@ -34,7 +34,8 @@ module Sunspot #:nodoc:
         # ActiveRecord::Base:: ActiveRecord model
         # 
         def load(id)
-          @clazz.find(id.to_i, :include => (@include || []))
+          id = id.to_i if numeric_primary_key?
+          @clazz.find(id, :include => (@include || []))
         end
 
         # 
@@ -49,7 +50,15 @@ module Sunspot #:nodoc:
         # Array:: Collection of ActiveRecord models
         #
         def load_all(ids)
-          @clazz.find(ids.map { |id| id.to_i }, :include => (@include || []))
+          ids = ids.map { |id| id.to_i } if numeric_primary_key?
+          @clazz.find(ids, :include => (@include || []))
+        end
+        
+        
+        protected
+        
+        def numeric_primary_key?
+          Sunspot::Rails::Util.numeric_primary_key?( @clazz )
         end
       end
     end

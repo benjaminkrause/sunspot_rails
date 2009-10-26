@@ -51,3 +51,17 @@ describe 'searchable with lifecycle - ignoring specific attributes' do
     @post.update_attribute :updated_at, 123.seconds.from_now
   end
 end
+
+describe 'searchable with lifecycle - non-integer primary key' do
+  integrate_sunspot
+  
+  before(:each) do
+    @post = PostWithoutId.create :title => 'New Title'
+    Sunspot::Rails.session.commit
+  end
+  
+  it "should load the record, even with a non-integer primary-key" do
+    PostWithoutId.columns_hash[PostWithoutId.primary_key].type.should == :string
+    PostWithoutId.search.results.should == [@post]
+  end
+end

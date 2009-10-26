@@ -14,6 +14,9 @@ module Sunspot #:nodoc:
           !(object.changes.symbolize_keys.keys - ignore_attributes).blank?
         end
         
+        def numeric_primary_key?( clazz )
+          clazz.columns_hash[clazz.primary_key].type == :integer
+        end
       end
     end
   end

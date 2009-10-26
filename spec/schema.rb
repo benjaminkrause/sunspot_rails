@@ -5,6 +5,11 @@ ActiveRecord::Schema.define(:version => 0) do
     t.references :blog
     t.timestamps
   end
+  
+  create_table :post_without_ids, :force => true, :id => false, :primary_key => 'uuid' do |t|
+    t.string :uuid
+    t.string :title
+  end
 
   create_table :blogs, :force => true do |t|
     t.string :name
