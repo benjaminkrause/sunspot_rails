@@ -131,6 +131,34 @@ module Sunspot #:nodoc:
         @log_level ||= (user_configuration_from_key('solr', 'log_level') || 'INFO')
       end
       
+      # 
+      # The initial size of the memory allocation pool. This value must
+      # be a multiple of 1024 greater than 1MB. Append the letter k to 
+      # indicate kilobytes, or m to indicate megabytes. This will be
+      # passed as the -Xms parameter to the virtual machine.
+      #
+      # ==== Returns
+      #
+      # String:: min_memory
+      #
+      def min_memory
+        @min_memory ||= (user_configuration_from_key('solr', 'min_memory') || '128m')
+      end
+      
+      #
+      # The maximum size of the memory allocation pool. This value must 
+      # be a multiple of 1024 greater than 2MB. Append the letter k to
+      # indicate kilobytes, or m to indicate megabytes. This will be
+      # passed as the -Xmx parameter to the virtual machine.
+      #
+      # ==== Returns
+      # 
+      # String:: max_memory
+      #
+      def max_memory
+        @min_memory ||= (user_configuration_from_key('solr', 'max_memory') || '512m')
+      end
+      
       #
       # Should the solr index receive a commit after each http-request.
       # Default true

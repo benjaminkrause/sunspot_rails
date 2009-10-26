@@ -44,6 +44,14 @@ describe Sunspot::Rails::Configuration, "default values" do
   it "should handle the 'solr_home' property when not set" do
     @config.solr_home.should_not == nil
   end
+  
+  it "should handle the 'max_memory' propery when not set" do
+    @config.max_memory.should == '512m'
+  end
+  
+  it "should handle the 'min_memory' propery when not set" do
+    @config.min_memory.should == '128m'
+  end
 
   it "should handle the 'auto_commit_after_request' propery when not set" do
     @config.auto_commit_after_request?.should == true
@@ -90,6 +98,14 @@ describe Sunspot::Rails::Configuration, "user settings" do
   
   it "should handle the 'solr_home' property when set" do
     @config.solr_home.should == '/my_superior_path'
+  end
+
+  it "should handle the 'min_memory' propery when set" do
+    @config.min_memory.should == '123m'
+  end
+  
+  it "should handle the 'max_memory' propery when set" do
+    @config.max_memory.should == '234m'
   end
 
   it "should handle the 'auto_commit_after_request' propery when set" do
