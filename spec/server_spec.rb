@@ -74,17 +74,27 @@ describe Sunspot::Rails::Server do
       Sunspot::Rails::Server.log_file.should =~ /log_file/
     end
 
+    it "should delegate the max_memory method to the configuration" do
+      @sunspot_configuration.should_respond_to_and_receive(:max_memory).and_return('max_memory')
+      Sunspot::Rails::Server.max_memory.should == 'max_memory'
+    end
+    
+    it "should delegate the min_memory method to the configuration" do
+      @sunspot_configuration.should_respond_to_and_receive(:min_memory).and_return('min_memory')
+      Sunspot::Rails::Server.min_memory.should == 'min_memory'
+    end
   end
 
   describe "protected methods" do
     it "should generate the start command" do
       Sunspot::Rails::Server.should_respond_to_and_receive(:port).and_return('1')
-      Sunspot::Rails::Server.should_respond_to_and_receive(:solr_home).and_return('home')
-      Sunspot::Rails::Server.should_respond_to_and_receive(:data_path).and_return('data')
-      Sunspot::Rails::Server.should_respond_to_and_receive(:log_level).and_return('LOG')
-      Sunspot::Rails::Server.should_respond_to_and_receive(:log_file).and_return('log_file')
+      [ :solr_home, :data_path, :log_level, :log_file, :max_memory, :min_memory ].each do |key|
+        Sunspot::Rails::Server.should_respond_to_and_receive( key ).and_return( key.to_s )
+      end
+
       Sunspot::Rails::Server.send(:start_command).should == \
-          [ 'sunspot-solr', 'start', '-p', '1', '-d', 'data', '-s', 'home', '-l', 'LOG', '--log-file', 'log_file' ]
+          [ 'sunspot-solr', 'start', '-p', '1', '-d', 'data_path', '-s', 'solr_home', '-l', 'log_level', 
+                  '--log-file', 'log_file', '--max-memory', 'max_memory', '--min-memory', 'min_memory' ]
     end
   
     it "should generate the stop command" do
@@ -93,12 +103,14 @@ describe Sunspot::Rails::Server do
   
     it "should generate the run command" do
       Sunspot::Rails::Server.should_respond_to_and_receive(:port).and_return('1')
-      Sunspot::Rails::Server.should_respond_to_and_receive(:solr_home).and_return('home')
-      Sunspot::Rails::Server.should_respond_to_and_receive(:data_path).and_return('data')
-      Sunspot::Rails::Server.should_respond_to_and_receive(:log_level).and_return('LOG')
-      Sunspot::Rails::Server.should_respond_to_and_receive(:log_file).and_return('log_file')
+      [ :solr_home, :data_path, :log_level, :log_file, :max_memory, :min_memory ].each do |key|
+        Sunspot::Rails::Server.should_respond_to_and_receive( key ).and_return( key.to_s )
+      end
+
       Sunspot::Rails::Server.send(:run_command).should == \
-          [ 'sunspot-solr', 'run', '-p', '1', '-d', 'data', '-s', 'home', '-l', 'LOG', '-lf', 'log_file' ]
+          [ 'sunspot-solr', 'run', '-p', '1', '-d', 'data_path', '-s', 'solr_home', '-l', 'log_level', 
+                  '--log-file', 'log_file', '--max-memory', 'max_memory', '--min-memory', 'min_memory' ]
+      
     end
 
     it "should generate the path for config files" do

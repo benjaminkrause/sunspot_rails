@@ -7,7 +7,7 @@ module Sunspot #:nodoc:
     class Server
       
       class << self
-        delegate :log_file, :log_level, :port, :solr_home, :to => :configuration
+        delegate :log_file, :log_level, :port, :solr_home, :max_memory, :min_memory, :to => :configuration
         
         # Name of the sunspot executable (shell script)
         SUNSPOT_EXECUTABLE = (RUBY_PLATFORM =~ /w(in)?32$/ ? 'sunspot-solr.bat' : 'sunspot-solr')
@@ -127,7 +127,7 @@ module Sunspot #:nodoc:
         # Array:: sunspot_start_command
         #
         def start_command
-          [ SUNSPOT_EXECUTABLE, 'start', '-p', port.to_s, '-d', data_path, '-s', solr_home, '-l', log_level, '--log-file', log_file ]
+          [ SUNSPOT_EXECUTABLE, 'start', '-p', port.to_s, '-d', data_path, '-s', solr_home, '-l', log_level, '--log-file', log_file, '--max-memory', max_memory, '--min-memory', min_memory ]
         end
 
         #
@@ -149,7 +149,7 @@ module Sunspot #:nodoc:
         # Array:: run_command
         #
         def run_command
-          [ SUNSPOT_EXECUTABLE, 'run', '-p', port.to_s, '-d', data_path, '-s', solr_home, '-l', log_level, '-lf', log_file ]
+          [ SUNSPOT_EXECUTABLE, 'run', '-p', port.to_s, '-d', data_path, '-s', solr_home, '-l', log_level, '--log-file', log_file, '--max-memory', max_memory, '--min-memory', min_memory ]
         end
         
         #
