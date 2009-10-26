@@ -123,9 +123,9 @@ module Sunspot #:nodoc:
         # Array:: Array of IDs, in the order returned by the search
         #
         def search_ids(&block)
-          search(&block).raw_results.map { |raw_result| 
+          search(&block).raw_results.map do |raw_result| 
             Util.numeric_primary_key?( self ) ? raw_result.primary_key.to_i : raw_result.primary_key
-          }
+          end
         end
 
         # 
